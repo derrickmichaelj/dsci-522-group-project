@@ -41,6 +41,49 @@ def validate_iris_dataframe(df: pd.DataFrame):
     except pa.errors.SchemaError as e:
         raise ValueError(f"Pandera schema validation failed:\n{e}")
 
+    # Outlier and anomalies value checks
+    numeric_cols = ["sepal_length", "sepal_width", "petal_length", "petal_width"]
+    z_scores = ((df_validated[numeric_cols] - df_validated[numeric_cols].mean()) /
+                df_validated[numeric_cols].std())
+
+    if (z_scores.abs() > 4).any().any():
+        raise ValueError("Outlier values detected in numeric columns.")
+    print("Outlier check passed.")
+
+    #Correct Category levels
+    expected_species = {"setosa", "versicolor", "virginica"}
+    actual_species = set(df_validated["species"].unique())
+
+    unknown_species = actual_species - expected_species
+
+    if unknown_species:
+        print(f"Warning: Unknown species values found and removed: {unknown_species}")
+        df_validated = df_validated[df_validated["species"].isin(expected_species)]
+
+    print("Species category level check passed (unknown categories removed if present).")
+
+    #Target response  (Iris is totally balanced but allow a tolerance of 10)
+
+    species_count = df_validated["species"].value_counts()
+    if not species_count.between(40,60).all():
+        raise ValueError("Species distribution outside expected range.")
+    print("Target Distribution check passed")
+
+    #No anomalous correlations between target and features
+
+    grouped_means = df_validated.groupby("species")[numeric_cols].mean()
+
+    if (grouped_means.nunique() == 1).any():
+        raise ValueError("No variation in feature means across species.")
+    print("Correlation check (features vs target) passed.")
+
+    #No anomalous correlations between features
+    #Arya Complete this please
+
+
     print("=== IRIS DATA VALIDATION — ALL CHECKS PASSED ===\n")
 
+
     return df_validated
+
+
