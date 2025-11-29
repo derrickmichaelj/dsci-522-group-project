@@ -80,10 +80,10 @@ To ensure consistency for all collaborators and graders, the project provides a 
 
 ### Using the Container
 
-Run the following lines to pull and run the container:
+Open Docker Desktop then run the following lines in your console to pull and run the container:
 
 `docker pull derrickj11/dsci-522-group-project:latest`
-`docker run -it --rm derrickj11/dsci-522-group-project:latest`
+`docker run -it --rm -p 8888:8888 derrickj11/dsci-522-group-project:latest`
 
 ### Updating the Container
 
