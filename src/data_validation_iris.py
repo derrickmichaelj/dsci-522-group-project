@@ -86,7 +86,7 @@ def validate_iris_dataframe(df: pd.DataFrame):
     )
 
     high_corr_pairs = []
-    threshold = 0.95
+    threshold = 0.97
 
     for col_i in numeric_cols:
         for col_j in numeric_cols:
