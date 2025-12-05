@@ -105,14 +105,8 @@ docker compose up
 #After running docker compose up, the terminal will display a link that looks like:
 (http://127.0.0.1:8888/lab?token=...)
 
-#Click this link, or copy and paste it into your web browser.
-
-#Enter the password/token (if prompted)
-#When JupyterLab loads, it may ask for a password or token.
-#Use the token `dsci522`
-
-Password or Token:   
 ```
+Copy the link and paste it in the browser. 
 
 Option 2: Run Pre-Built Image (Fastest)
 Pull the image directly from DockerHub and run the container, which will start JupyterLab on port 8888.
