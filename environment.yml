@@ -16,5 +16,6 @@ dependencies:
   - click
   - vl-convert-python
   - pip
+  - quarto
   - pip:
       - ucimlrepo
