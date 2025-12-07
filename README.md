@@ -103,7 +103,6 @@ You must have Docker Desktop installed and running on your system.
 
 ```bash
 # Open terminal and enter the project directory
-cd ..
 
 # Instead of pulling and running the image manually, use:
 docker compose up
@@ -208,87 +207,26 @@ In the JupyterLab interface, navigate to and open: `reports/iris_classification.
 ## Follow these steps after Activating the Environment from either of the ways mentioned above:
 
 
-### Running the Command-Line Pipeline
 
-In addition to the Jupyter notebook–based workflow, this project provides a script-driven pipeline to:
-
-1. Download the Iris dataset  
-2. Validate & process the raw data  
-3. Generate EDA figures  
-4. Train & evaluate models and save metrics / artifacts  
-
-All scripts are implemented as CLI tools in `src/`:
-
-- `src/download.py`  
-- `src/process.py`  
-- `src/eda.py`  
-- `src/model.py`  
-- `src/data_validation_iris.py` (used internally by `process.py`)
-
-### 0. Prerequisites
-
-Make sure you have already:
-
-- Created and activated the Conda environment (or started the Docker container) as described above, e.g.:
+### Running the Codes in the Command-Line of JL Docker Container or Local Development 
 
 ```bash
-conda activate 522_group_project_env
+
+#If the folders already contain all the figures and tables run: 
+make clean
+
+#The previous command cleans all the folders, the next step is to run: 
+make all
+
+#Re-render the quarto document to update the HTML fille
+quarto render reports/iris_classification.qmd --to html
+
+#Additional Step only use if required
+#If you encounter an error in rendering the document such as "No such kernel named 522_group_project_env", run: 
+python -m ipykernel install --user --name 522_group_project_env --display-name "522_group_project_env"
 ```
 
-From now on, all commands are run **from the project root** (where `README.md` lives).
 
-
-### 1. Download the Raw Iris Data
-
-The **download step** fetches the Iris dataset and saves it as a CSV file:
-
-```bash
-python src/download.py   --output data/raw/iris.csv
-```
-
-### 3. Validate & Process the Data
-
-The **processing step** reads the raw CSV, runs a comprehensive set of validation checks, and writes a cleaned dataset:
-
-```bash
-python src/process.py   --input data/raw/iris.csv   --output data/processed/iris_clean.csv
-```
-
-In this step:
-
-- The raw Iris data is loaded from `--input`  
-- Validation is performed via `data_validation_iris.py` (schema checks, duplicates, outliers, species categories, target balance, etc.)  
-- Columns are cleaned/standardized  
-- The validated dataset is saved to `--output`
-
-
-### 4. Run Exploratory Data Analysis (EDA)
-
-The **EDA step** produces several figures based on the cleaned data:
-
-```bash
-python src/eda.py   --input data/processed/iris_clean.csv   --output-dir results/figures
-```
-
-By default, this script saves:
-
-- `results/figures/scatter_petal.png` — petal length vs. petal width by species  
-- `results/figures/boxplots.png` — boxplots of each feature by species  
-- `results/figures/correlation_heatmap.png` — correlation matrix heatmap
-
-
-### 5. Train & Evaluate Models
-
-The **modeling step** trains and evaluates:
-
-- A **DummyClassifier** baseline  
-- A **LogisticRegression** model inside a pipeline with standard scaling and hyperparameter tuning (`RandomizedSearchCV` over `C`)
-
-Run:
-
-```bash
-python src/model.py   --input data/processed/iris_clean.csv   --output-dir results/metrics
-```
 
 This script will:
 
@@ -304,7 +242,7 @@ This script will:
    - `results/metrics/confusion_matrix.png` — confusion matrix for the best model  
    - `results/metrics/logreg_model.pickle` — trained model artifact  
 
-### 6. End-to-End Example
+### End-to-End Example
 
 To run the **entire pipeline** from scratch (assuming empty `data/` and `results/` folders), execute:
 
@@ -328,6 +266,13 @@ After these commands complete, you will have:
 - EDA visualizations in `results/figures/`  
 - Model metrics, confusion matrix, and trained model artifacts in `results/metrics/`  
 
+
+### Clean up
+
+1. To shut down the container and clean up the resources, 
+type `Cntrl` + `C` in the terminal
+where you launched the container, and then type `docker compose rm`
+
 ---
 
 ## Key Dependencies
@@ -340,6 +285,10 @@ After these commands complete, you will have:
 - Environment: `jupyterlab`, `docker` (for containerization)
 
 All managed via: `environment.yml`, `conda-lock.yml`, and Docker.
+
+#### Developer dependencies
+- `conda` (version 23.9.0 or higher)
+- `conda-lock` (version 2.5.7 or higher)
 
 ---
 
