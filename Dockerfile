@@ -13,7 +13,7 @@ USER ${NB_USER}
 COPY conda-lock.yml /tmp/conda-lock.yml
 
 # Install mamba in base (needed for conda-lock)
-RUN conda install mamba -n base -c conda-forge -y
+RUN conda install -n base -c conda-forge conda-lock -y
 
 # Create the environment from the lock file
 RUN conda-lock install --name 522_group_project_env /tmp/conda-lock.yml \
