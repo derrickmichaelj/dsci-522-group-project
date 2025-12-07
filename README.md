@@ -103,6 +103,7 @@ You must have Docker Desktop installed and running on your system.
 
 ```bash
 # Open terminal and enter the project directory
+cd ..
 
 # Instead of pulling and running the image manually, use:
 docker compose up
