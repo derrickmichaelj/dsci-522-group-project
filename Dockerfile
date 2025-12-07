@@ -1,29 +1,24 @@
 FROM quay.io/jupyter/minimal-notebook:latest
 
 USER root
-
-# Install OS-level dependency
 RUN apt-get update \
     && apt-get install -y make \
     && rm -rf /var/lib/apt/lists/*
 
 USER ${NB_USER}
 
-# Copy the conda-lock file (make sure it’s the correct platform)
+# Copy lock file and install conda-lock
 COPY conda-lock.yml /tmp/conda-lock.yml
-
-# Install mamba in base (needed for conda-lock)
-RUN conda install -n base -c conda-forge conda-lock -y
-
-# Create the environment from the lock file
-RUN conda-lock install --name 522_group_project_env /tmp/conda-lock.yml \
+RUN conda install -n base -c conda-forge conda-lock -y \
+    && conda-lock install --name 522_group_project_env /tmp/conda-lock.yml \
     && conda clean -afy \
     && fix-permissions "${CONDA_DIR}" \
     && fix-permissions "/home/${NB_USER}"
 
-# Make the environment default for all subsequent commands
+# Only now make the conda env default
 SHELL ["conda", "run", "-n", "522_group_project_env", "/bin/bash", "-c"]
 
-# Copy your project
+# Copy project files
 COPY . /home/jovyan/work
 WORKDIR /home/jovyan/work
+
