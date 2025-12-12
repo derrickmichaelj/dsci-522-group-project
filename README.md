@@ -55,6 +55,7 @@ dsci-522-group-project/
 ├── environment.yml                 # Conda environment definition (dependencies)
 ├── conda-lock.yml                  # Lock file for cross-platform reproducibility (linux-64)
 ├── Dockerfile                      # Instructions for building the project Docker image
+├── Makefile                        # Automation commands for building, running, and cleaning the project
 ├── docker-compose.yml              # Orchestration for running the Docker service (JupyterLab)
 ├── LICENSE.md                      # MIT License details
 └── README.md                       # This project documentation
