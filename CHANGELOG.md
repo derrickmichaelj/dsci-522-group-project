@@ -13,9 +13,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 PR for the fix [here](https://github.com/derrickmichaelj/iris-classification-analysis/commit/5d69b70cb15d1caf83514bfb4d38ac33447913dc)
 
-1. fixed Repository Naming based on feedback from Vy given [here](https://github.com/UBC-MDS/data-analysis-review-2025/issues/40)
+2. fixed Repository Naming based on feedback from Vy given [here](https://github.com/UBC-MDS/data-analysis-review-2025/issues/40)
 
-[fix](https://github.com/derrickmichaelj/iris-classification-analysis)
+Title check, [fix](https://github.com/derrickmichaelj/iris-classification-analysis)
 
 3. quarto render command could be included in Makefile, feedback from @lightgl given [here](https://github.com/UBC-MDS/data-analysis-review-2025/issues/59)
 
